@@ -1,0 +1,18 @@
+# Orchestration & Framework
+langgraph
+langchain-openai
+langchain-community
+langchain-groq
+
+# Tools & Data
+tavily-python
+beautifulsoup4
+playwright
+pydantic
+python-dotenv
+
+# Web UI & API
+fastapi
+uvicorn
+streamlit
+plotly
