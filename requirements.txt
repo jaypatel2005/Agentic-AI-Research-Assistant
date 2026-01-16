@@ -1,18 +1,16 @@
-# Orchestration & Framework
-langgraph
-langchain-openai
-langchain-community
-langchain-groq
+# AI Frameworks (Updated for 2026)
+langgraph>=1.2.0
+langchain-google-genai>=3.1.0
+langchain-tavily>=0.2.10
+langchain-community>=0.4.0
 
-# Tools & Data
-tavily-python
+# Data Acquisition & PDF (Requirement: ArXiv/Web Scraping)
+arxiv
+pymupdf
 beautifulsoup4
-playwright
-pydantic
-python-dotenv
 
-# Web UI & API
-fastapi
-uvicorn
+# UI & Visuals
 streamlit
 plotly
+python-dotenv
+pydantic>=2.0
