@@ -1,7 +1,7 @@
 import streamlit as st
 import time
 import re
-from agent import app  # Importing your compiled LangGraph
+from agent import app 
 
 # --- UI Setup ---
 st.set_page_config(page_title="AI Research Playground", layout="wide", page_icon="🧪")
