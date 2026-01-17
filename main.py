@@ -1,93 +1,117 @@
 import streamlit as st
 import plotly.express as px
-from agent import app  # Import your compiled graph from agent.py
+from agent import app
 import time
 
 # --- UI Configuration ---
 st.set_page_config(page_title="Autonomous Research AI", layout="wide", page_icon="🔬")
 
-st.title("🔬 Autonomous AI Research Assistant")
+st.title("Autonomous AI Research Assistant")
 st.markdown("---")
 
-# Sidebar for metadata and status
+# Initialize session state for persistence
+if "master_state" not in st.session_state:
+    st.session_state.master_state = {
+        "domain": "Initializing...",
+        "iteration_count": 0,
+        "confidence_score": 0.0,
+        "research_notes": [],
+        "questions": [],
+        "experiment_design": "Developing...",
+        "final_paper": ""
+    }
+
+if "run_complete" not in st.session_state:
+    st.session_state.run_complete = False
+
+# Sidebar for live tracking
 with st.sidebar:
-    st.header("Agent Status")
-    status_box = st.empty()
-    st.info("Searching for post-2024 emerging scientific domains...")
-    
-# Initialize session state to store research results
-if "final_results" not in st.session_state:
-    st.session_state.final_results = None
+    st.header("🕵️ Agent Status")
+    status_placeholder = st.empty()
+    st.divider()
+    if st.session_state.run_complete:
+        st.success("Research Phase Complete")
+        # --- Requirement: Final Markdown Export ---
+        st.download_button(
+            label="Download Research Paper",
+            data=st.session_state.master_state.get("final_paper", ""),
+            file_name=f"research_{int(time.time())}.md",
+            mime="text/markdown",
+            use_container_width=True
+        )
 
 # --- Main Execution ---
 if st.button("🚀 Start Autonomous Research Pipeline", use_container_width=True):
-    # Placeholders for real-time updates
+    st.session_state.run_complete = False
+    
     with st.status("Agents collaborating...", expanded=True) as status:
         log_container = st.container()
         
-        # Initial State
+        # Initial inputs for LangGraph
         inputs = {
             "domain": "", 
             "iteration_count": 0, 
             "research_notes": [], 
-            "status_updates": ["Initializing multi-agent system..."]
+            "status_updates": ["System Online..."],
+            "questions": [],
+            "confidence_score": 0.0
         }
         
         # Stream the graph execution
-        # Requirement: Real-time messages (can even be jokes)
         for output in app.stream(inputs):
-            for node_name, value in output.items():
-                if "status_updates" in value:
-                    msg = value["status_updates"][-1]
-                    log_container.write(f"**[{node_name.upper()}]**: {msg}")
-                    status_box.write(f"Current: {node_name.capitalize()}")
+            for node_name, node_update in output.items():
+                # --- Requirement: Persistent State Tracking ---
+                # This ensures values like 'domain' aren't lost when 'critic' runs
+                st.session_state.master_state.update(node_update)
                 
-                # Capture the final state once the loop ends
-                st.session_state.final_results = value
+                # Update UI logs
+                if "status_updates" in node_update:
+                    msg = node_update["status_updates"][-1]
+                    log_container.write(f"**[{node_name.upper()}]**: {msg}")
+                    status_placeholder.info(f"**Active:** {node_name.capitalize()}")
         
         status.update(label="Research Complete!", state="complete", expanded=False)
+        st.session_state.run_complete = True
+        st.rerun() # Refresh to show the dashboard
 
-# --- Display Results ---
-if st.session_state.final_results:
-    res = st.session_state.final_results
+# --- Display Dashboard (Only if research is done or in progress) ---
+if st.session_state.run_complete:
+    res = st.session_state.master_state
+    conf = res.get("confidence_score", 0.0)
     
-    # Requirement: Multi-column Dashboard & Visualization
+    # Requirement: Multi-column Dashboard
     col1, col2 = st.columns([3, 1])
     
     with col1:
-        st.header("📄 Research Findings")
-        st.markdown(f"### Target Domain: {res.get('domain', 'Analyzing...')}")
+        st.header(f"📄 Results: {res.get('domain')}")
         
-        # Display Research Questions & Design
-        st.subheader("Research Questions")
-        st.write(res.get("questions", ["Developing..."])[0])
+        tabs = st.tabs(["Research Questions", "Hypothesis & Design", "Full Paper"])
         
-        st.subheader("Hypothesis & Experimental Design")
-        st.info(res.get("experiment_design", "Synthesizing..."))
-        
+        with tabs[0]:
+            st.write(res.get("questions", ["Questions pending..."])[0])
+            
+        with tabs[1]:
+            st.info(res.get("experiment_design", "Design pending..."))
+            
+        with tabs[2]:
+            st.markdown(res.get("final_paper", "Generating paper..."))
+            
     with col2:
         st.header("📊 Metrics")
         
-        # Requirement: Interactive Plotly Dashboard (Confidence Score)
-        conf = res.get("confidence_score", 0.0)
+        # Requirement: Interactive Plotly Gauge
         fig = px.pie(
-            values=[conf, 1-conf], 
+            values=[conf, 1.0 - conf if conf <= 1.0 else 0], 
             names=["Confidence", "Uncertainty"],
-            hole=0.6,
-            color_discrete_sequence=["#2ecc71", "#e74c3c"]
+            hole=0.7,
+            color_discrete_sequence=["#2ecc71", "#34495e"]
         )
-        fig.update_layout(showlegend=False, margin=dict(t=0, b=0, l=0, r=0))
+        fig.update_layout(showlegend=False, height=250, margin=dict(t=0, b=0, l=0, r=0))
         st.plotly_chart(fig, use_container_width=True)
         
-        st.metric("Final Confidence", f"{conf*100:.0f}%")
-        st.metric("Iterations", res.get("iteration_count", 0))
+        st.metric("Confidence Score", f"{conf*100:.1f}%")
+        st.metric("Research Cycles", res.get("iteration_count", 0))
 
-    # Requirement: Final Markdown Paper
-    st.divider()
-    st.subheader("📝 Scientific Summary")
-    st.markdown(f"""
-    **Autonomous Analysis Summary**
-    The multi-agent system has concluded its research on **{res.get('domain')}**. 
-    After {res.get('iteration_count')} self-correction cycles, the Critic agent 
-    has verified the methodology with a confidence score of {conf*100:.1f}%.
-    """)
+    # Requirement: Handle Conflict/Ambiguity visualization
+    if conf < 0.6:
+        st.warning("⚠️ Note: The Critic requested additional depth due to limited ArXiv data.")
