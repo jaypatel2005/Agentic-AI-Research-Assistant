@@ -78,10 +78,11 @@ This project strictly adheres to a **zero-cost deployment constraint**:
 ---
 
 ### 2. Installation
-
+```bash
 git clone https://github.com/jaypatel2005/Agentic-AI-Research-Assistant.git
 cd Agentic-AI-Research-Assistant
 pip install -r requirements.txt
+```
 
 ### 3. Environment Variables
 
