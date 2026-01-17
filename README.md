@@ -85,9 +85,12 @@ pip install -r requirements.txt
 
 ### 3. Environment Variables
 
-Create a .env file in the project root:
-  GROQ_API_KEY=your_groq_key_here
-  TAVILY_API_KEY=your_tavily_key_here
+Create a `.env` file in the project root:
+
+```plaintext
+GROQ_API_KEY=your_groq_key_here
+TAVILY_API_KEY=your_tavily_key_here
+```
 
 ### 4. Run Locally
 
