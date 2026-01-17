@@ -4,7 +4,7 @@
 
 ## 🚀 Project Overview
 
-The **Autonomous AI Research Assistant** is a fully agentic, multi-agent research system designed to operate with **zero human intervention after initialization**. The system autonomously discovers emerging scientific breakthroughs (post-2024), formulates original research questions, gathers and cleans data from public sources, and produces a structured, peer-review-style **mini research paper**.
+The **Autonomous AI Research Assistant** is a fully agentic, multi-agent research system designed to operate with **zero human intervention after initialization**. The system autonomously discovers formulates original research questions, gathers and cleans data from public sources, and produces a structured, peer-review-style **mini research paper**.
 
 Unlike traditional RAG pipelines or single-agent chains, this project demonstrates **true agency**: long-horizon planning, dynamic tool use, iterative self-criticism, confidence-based refusal, and persistent memory across reasoning cycles.
 
