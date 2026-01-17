@@ -96,10 +96,14 @@ TAVILY_API_KEY=your_tavily_key_here
 ### 4. Run Locally
 
 # Run the main research dashboard
+```bash
 streamlit run main.py
+```
 
 # Run the Playground mode
+```bash
 streamlit run playground.py
+```
 
 ---
 
