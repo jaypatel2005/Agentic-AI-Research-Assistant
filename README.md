@@ -1,93 +1,120 @@
-🔬 Autonomous AI Research Assistant (v1.0)
-Agentic Scientific Discovery for Emerging Domains (Post-2024)
-🚀 Project Overview
-This system is a fully autonomous, multi-agent AI designed to operate with zero human intervention after startup. [cite_start]It discovers emerging scientific breakthroughs (post-2024), formulates original research questions, gathers/cleans data from public APIs, and generates a peer-reviewed "mini-research paper".   
+# 🔬 Autonomous AI Research Assistant (v1.0)
 
-This project demonstrates true agency—planning, tool use, self-criticism, and memory—avoiding the limitations of RAG-only or single-agent chains.   
+**Agentic Scientific Discovery for Emerging Domains (Post-2024)**
 
-Live Application URL: (https://agentic-ai-research-assistant-8zzto5fd99bpayvgmvfysq.streamlit.app/)    
+---
 
-🏗️ Agentic Architecture
-The system utilizes a StateGraph architecture (LangGraph) with 5+ specialized agents collaborating in a cyclic loop.   
+## 🚀 Project Overview
 
-Domain Scout Agent: Discovers emerging fields post-Jan 2024 using real-time search (Tavily) to find "patent spikes" and "new ArXiv categories".   
+The **Autonomous AI Research Assistant** is a fully agentic, multi-agent research system designed to operate with **zero human intervention after initialization**. The system autonomously discovers emerging scientific breakthroughs (post-2024), formulates original research questions, gathers and cleans data from public sources, and produces a structured, peer-review-style **mini research paper**.
 
-Question Generator Agent: Creates 3-5 non-trivial research questions rated for novelty and feasibility.   
+Unlike traditional RAG pipelines or single-agent chains, this project demonstrates **true agency**: long-horizon planning, dynamic tool use, iterative self-criticism, confidence-based refusal, and persistent memory across reasoning cycles.
 
-Data Alchemist Agent: Interfaces with the ArXiv API to find, clean, and process disparate data sources.   
+**Live Application:**  
+https://agentic-ai-research-assistant-8zzto5fd99bpayvgmvfysq.streamlit.app/
 
-Experiment Designer Agent: Proposes hypotheses and devises 3-step experimental methodologies based on retrieved data.   
+---
 
-Critic Agent: Ruthlessly attacks methodology and assumptions, forcing iteration (up to 5 cycles) if the confidence score is below 60%.   
+## 🏗️ Agentic Architecture
 
+The system is implemented using a **StateGraph architecture (LangGraph)** and consists of multiple specialized agents collaborating in a cyclic, self-correcting loop:
 
-Writer Agent: Compiles all findings into a structured Markdown paper with automated "Limitations" sections.   
+- **Domain Scout Agent**  
+  Identifies emerging scientific domains (post-January 2024) using real-time search, detecting signals such as patent surges and newly formed ArXiv categories.
 
-🧪 Playground
-I have included a dedicated Playground Mode (playground.py).
+- **Question Generator Agent**  
+  Produces 3–5 non-trivial research questions, scored for novelty, feasibility, and scientific relevance.
 
+- **Data Alchemist Agent**  
+  Interfaces with the ArXiv API to retrieve, clean, normalize, and preprocess heterogeneous academic data sources.
 
-Manual Trigger: Paste a specific scientific topic or click "Start" to let the agent choose autonomously.   
+- **Experiment Designer Agent**  
+  Formulates hypotheses and proposes structured, three-step experimental methodologies grounded in retrieved evidence.
 
-Real-time Interaction: View the "internal monologue" of the agents, including real-time status updates and agent humor/logs.   
+- **Critic Agent**  
+  Performs adversarial evaluation of assumptions, data quality, and methodology. If the confidence score drops below 60%, the system is forced into re-planning (up to five iterations).
 
-Graceful Failures: Custom error handling for API quotas and "None" value fallbacks to ensure the UI remains professional even during rate-limiting events.
+- **Writer Agent**  
+  Synthesizes validated outputs into a structured Markdown research paper, including automated *Limitations* and *Confidence* sections.
 
-🛠️ Technical Stack (Free-Tier Only)
-This project strictly adheres to the "zero-cost" requirement:   
+---
 
-LLM Backbone: Groq (Llama-3.3-70B) for high-speed, open-weights inference.   
+## 🧪 Playground Mode
 
-Orchestration: LangGraph (for complex, cyclic agent loops).   
+A dedicated interactive **Playground Mode** is included (`playground.py`) for experimentation and inspection.
 
-Search Engine: Tavily API (Search-optimized for AI Agents).   
+- **Manual Trigger**  
+  Provide a specific scientific topic or allow the system to select one autonomously.
 
-Data Acquisition: ArXiv API Client (Cleaned via Regex & Llama-3 parsing).   
+- **Real-Time Transparency**  
+  Observe internal agent reasoning, execution logs, and status updates during runtime.
 
-Visualization: Interactive Plotly Dashboards.   
+- **Graceful Failure Handling**  
+  Robust exception management for API quota limits, null values, and partial data availability—ensuring UI stability under failure conditions.
 
+---
 
-Deployment: Dockerized Streamlit UI.   
+## 🛠️ Technical Stack (Free-Tier Only)
 
-📦 Setup & Execution
-1. Prerequisites
-Python 3.10+
+This project strictly adheres to a **zero-cost deployment constraint**:
 
-Groq API Key
+- **LLM Backbone:** Groq (Llama-3.3-70B) for high-throughput, open-weights inference  
+- **Agent Orchestration:** LangGraph (cyclic, state-driven multi-agent workflows)  
+- **Search Engine:** Tavily API (agent-optimized semantic search)  
+- **Data Acquisition:** ArXiv API client with regex-based cleaning and LLM parsing  
+- **Visualization:** Interactive Plotly dashboards  
+- **Deployment:** Dockerized Streamlit application  
 
-Tavily API Key
+---
 
-2. Installation
-Bash
+## 📦 Setup & Execution
+
+### 1. Prerequisites
+
+- Python **3.10+**
+- Groq API key
+- Tavily API key
+
+---
+
+### 2. Installation
 
 git clone https://github.com/jaypatel2005/Agentic-AI-Research-Assistant.git
 cd Agentic-AI-Research-Assistant
 pip install -r requirements.txt
 
-3. Environment Variables
-Create a .env file in the root directory:
+### 3. Environment Variables
 
-Plaintext
+Create a .env file in the project root:
+  GROQ_API_KEY=your_groq_key_here
+  TAVILY_API_KEY=your_tavily_key_here
 
-GROQ_API_KEY=your_groq_key_here
-TAVILY_API_KEY=your_tavily_key_here
-4. Run Locally
-Bash
+### 4. Run Locally
 
-# To run the main research dashboard
+# Run the main research dashboard
 streamlit run main.py
 
-# To run the Recruiter Playground
+# Run the Playground mode
 streamlit run playground.py
-📈 Core Innovations & Challenges
 
-Closed-Loop Self-Correction: The Critic agent manages a confidence threshold; if data is ambiguous or conflicting, it forces a re-plan by the Scout.   
+---
 
+## 📈 Core Innovations & Challenges
 
-Uncertainty Quantification: Every research cycle includes a confidence score (0-100%); the agent will "refuse" to generate a paper if verification remains below 60% after 5 cycles.   
+Closed-Loop Self-Correction
+A confidence-driven feedback mechanism forces re-planning whenever evidence is weak, contradictory, or incomplete.
 
+Uncertainty Quantification
+Each research cycle produces a confidence score (0–100%). If validation remains below 60% after five iterations, the system refuses to generate a paper.
 
-Context Optimization: Successfully managed long-context scientific papers within free-tier token limits by implementing custom summarization and cleaning protocols.   
+Context Optimization Under Constraints
+Long-form scientific documents are processed within free-tier token limits using custom summarization, chunking, and data-cleaning pipelines.
 
-📄 Documentation
-For detailed information on the deployment pipeline, JSON schemas, and multi-stage Dockerfile logic, please refer to the DOCUMENTATION.md file.
+---
+
+## 📄 Documentation
+
+For detailed technical documentation—including deployment pipelines, JSON schemas, and multi-stage Dockerfile design—refer to DOCUMENTATION.md.
+
+## Author: Jay Patel
+## Status: Actively maintained and extensible
