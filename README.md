@@ -1,7 +1,5 @@
 # 🔬 Autonomous AI Research Assistant (v1.0)
 
-**Agentic Scientific Discovery for Emerging Domains (Post-2024)**
-
 ---
 
 ## 🚀 Project Overview
@@ -10,7 +8,7 @@ The **Autonomous AI Research Assistant** is a fully agentic, multi-agent researc
 
 Unlike traditional RAG pipelines or single-agent chains, this project demonstrates **true agency**: long-horizon planning, dynamic tool use, iterative self-criticism, confidence-based refusal, and persistent memory across reasoning cycles.
 
-**Live Application:**  
+**Live Demo(for prompt "one hyper-specific emerging scientific breakthrough post-2024"):**  
 https://agentic-ai-research-assistant-8zzto5fd99bpayvgmvfysq.streamlit.app/
 
 ---
