@@ -8,7 +8,7 @@ The **Autonomous AI Research Assistant** is a fully agentic, multi-agent researc
 
 Unlike traditional RAG pipelines or single-agent chains, this project demonstrates **true agency**: long-horizon planning, dynamic tool use, iterative self-criticism, confidence-based refusal, and persistent memory across reasoning cycles.
 
-**Live Demo(for prompt "one hyper-specific emerging scientific breakthrough post-2024"):**  
+**Live Demo:**  
 https://agentic-ai-research-assistant-8zzto5fd99bpayvgmvfysq.streamlit.app/
 
 ---
@@ -123,4 +123,3 @@ Long-form scientific documents are processed within free-tier token limits using
 For detailed technical documentation—including deployment pipelines, JSON schemas, and multi-stage Dockerfile design—refer to DOCUMENTATION.md.
 
 ## Author: Jay Patel
-## Status: Actively maintained and extensible
