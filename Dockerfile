@@ -21,7 +21,7 @@ COPY . .
 # Ensure the app can find the installed libraries
 ENV PATH=/root/.local/bin:$PATH
 
-# Streamlit runs on port 8501 by default
+# Streamlit runs on port 8501
 EXPOSE 8501
 
 # Command to start the app
