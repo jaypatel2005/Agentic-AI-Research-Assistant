@@ -12,4 +12,5 @@ langgraph
 arxiv
 plotly
 markdown    
-xhtml2pdf   
+xhtml2pdf==0.2.15 
+reportlab==4.0.9
