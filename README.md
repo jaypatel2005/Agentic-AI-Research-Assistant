@@ -1,4 +1,4 @@
-# 🔬 Autonomous AI Research Assistant (v1.0)
+# 🔬 Autonomous AI Research Assistant (v2.0)
 
 ---
 
@@ -9,7 +9,8 @@ The **Autonomous AI Research Assistant** is a fully agentic, multi-agent researc
 Unlike traditional RAG pipelines or single-agent chains, this project demonstrates **true agency**: long-horizon planning, dynamic tool use, iterative self-criticism, confidence-based refusal, and persistent memory across reasoning cycles.
 
 **Live Demo(for prompt "one hyper-specific emerging scientific breakthrough post-2024"):**  
-https://agentic-ai-research-assistant-8zzto5fd99bpayvgmvfysq.streamlit.app/
+Try the agent yourself here:  
+👉 **[https://agentic-ai-research-assistant-cs9oesnrckeuktrqyvha7y.streamlit.app/]**
 
 ---
 
@@ -37,18 +38,13 @@ The system is implemented using a **StateGraph architecture (LangGraph)** and co
 
 ---
 
-## 🧪 Playground Mode
+## ✨ Key Features (v2.0)
 
-A dedicated interactive **Playground Mode** is included (`playground.py`) for experimentation and inspection.
-
-- **Manual Trigger**  
-  Provide a specific scientific topic or allow the system to select one autonomously.
-
-- **Real-Time Transparency**  
-  Observe internal agent reasoning, execution logs, and status updates during runtime.
-
-- **Graceful Failure Handling**  
-  Robust exception management for API quota limits, null values, and partial data availability—ensuring UI stability under failure conditions.
+- **⚡ Live Research Streaming:** Watch the agents "think" in real-time with a terminal-style log console.
+- **📊 Interactive Metrics:** Visual confidence scores and iteration tracking using **Plotly** donut charts.
+- **📥 Downloadable Reports:** One-click buttons to save your final research paper as a **PDF** or **Markdown** file.
+- **🛠️ Debug Console:** A collapsible "Matrix View" for developers to inspect raw JSON state changes live.
+- **🧠 Modular Design:** Clean separation of concerns with a production-ready `src/` directory structure.
 
 ---
 
@@ -56,12 +52,13 @@ A dedicated interactive **Playground Mode** is included (`playground.py`) for ex
 
 This project strictly adheres to a **zero-cost deployment constraint**:
 
-- **LLM Backbone:** Groq (Llama-3.3-70B) for high-throughput, open-weights inference  
-- **Agent Orchestration:** LangGraph (cyclic, state-driven multi-agent workflows)  
-- **Search Engine:** Tavily API (agent-optimized semantic search)  
-- **Data Acquisition:** ArXiv API client with regex-based cleaning and LLM parsing  
-- **Visualization:** Interactive Plotly dashboards  
-- **Deployment:** Dockerized Streamlit application  
+- **LLM Backbone:** Groq (Llama-3.3-70B) for high-throughput, open-weights inference.
+- **Agent Orchestration:** LangGraph (cyclic, state-driven multi-agent workflows).
+- **Search Engine:** Tavily API (agent-optimized semantic search).
+- **Data Acquisition:** ArXiv API & Tavily Search.
+- **Visualization:** Interactive Plotly dashboards.
+- **PDF Generation:** `xhtml2pdf` & `markdown` libraries.
+- **Deployment:** Streamlit Community Cloud.
 
 ---
 
@@ -95,12 +92,7 @@ TAVILY_API_KEY=your_tavily_key_here
 
 # Run the main research dashboard
 ```bash
-streamlit run main.py
-```
-
-# Run the Playground mode
-```bash
-streamlit run playground.py
+streamlit run app.py
 ```
 
 ---
