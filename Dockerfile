@@ -1,28 +1,44 @@
 # --- Stage 1: Build Stage ---
-# We use a full version of Python to install and compile everything
 FROM python:3.11-slim as builder
 
 WORKDIR /app
 
-# Install dependencies in a temporary location
+# 1. Install system build dependencies (Required for installing Python packages like Cairo)
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libcairo2-dev \
+    pkg-config \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# 2. Install Python dependencies
 COPY requirements.txt .
 RUN pip install --user --no-cache-dir -r requirements.txt
 
 # --- Stage 2: Runtime Stage ---
-# We use a very tiny version of Python for the final container
 FROM python:3.11-slim
 WORKDIR /app
 
-# Copy only the installed libraries from the builder stage
+# 3. Install runtime system dependencies (Required for PDF generation to WORK)
+# We need libcairo2 and libpango at runtime, not just build time.
+RUN apt-get update && apt-get install -y \
+    libcairo2 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# 4. Copy installed Python libraries from builder
 COPY --from=builder /root/.local /root/.local
-# Copy your actual code
+
+# 5. Copy your actual application code
 COPY . .
 
-# Ensure the app can find the installed libraries
+# 6. Set environment variables
 ENV PATH=/root/.local/bin:$PATH
+ENV PYTHONUNBUFFERED=1
 
-# Streamlit runs on port 8501
+# 7. Expose the port
 EXPOSE 8501
 
-# Command to start the app
-CMD ["streamlit", "run", "main.py", "--server.port=8501", "--server.address=0.0.0.0"]
+# 8. Start the app (Updated to app.py)
+CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
